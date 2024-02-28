@@ -1,0 +1,36 @@
+import sqlite3
+# Connect to SQLite database (or create it if it doesn't exist)
+connect= sqlite3.connect('phone_book.db')
+cursor= connect.cursor()
+
+# Create table
+cursor.execute('''
+    CREATE TABLE lis
+    (ID INTEGER PRIMARY KEY,
+    Name TEXT,
+    Cell TEXT,
+    Email TEXT)
+''')
+# Insert 5 rows of data
+data= [
+    (1, 'TONY', '1234567890', 'stark@example.com'),
+    (2, 'PETER', '1112223333', 'spiderman@example.com'),
+    (3, 'RAM', '0987654321', 'charan@example.com'),
+    (4, 'RRR', '3335556666', 'fire_water@mail.com'),
+    (5, 'Prabhas', '7778886666', 'kalkki@2024.com'),
+]
+cursor.executemany('INSERT INTO lis VALUES (?,?,?,?)', data)
+# Commit the changes
+connect.commit()
+# Fetch all data
+cursor.execute('SELECT * FROM lis')
+# Display all data
+rows = cursor.fetchall()
+
+print("ID\tName\t\tCell#\t\t\tEmail")
+print("-" * 50)
+for row in rows:
+    print(f"{row[0]}\t{row[1]}\t\t{row[2]}\t\t{row[3]}")
+
+# Close the connection
+connect.close()
